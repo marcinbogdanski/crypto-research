@@ -1,0 +1,23 @@
+# Python
+*.py[cod]
+__pycache__/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VSCode
+.devcontainer/
+.vscode/
+.idea/
+pyrightconfig.json
+
+# Envirnment
+*.env
+venv/
+
+# Git
+.git/
+.gitignore
+
+# Other Stuff
+# put project custom ignores here
