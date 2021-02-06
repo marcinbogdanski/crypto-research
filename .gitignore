@@ -1,0 +1,19 @@
+# Python
+*.py[cod]
+__pycache__/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDEs
+.devcontainer/
+.vscode/
+.idea/
+pyrightconfig.json
+
+# Envirnment
+*.env
+venv/
+
+# Other Stuff
+# put project custom ignores here
