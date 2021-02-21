@@ -34,5 +34,7 @@ ENV PYTHONPATH="/app"
 COPY . /app
 WORKDIR /app
 
+ENTRYPOINT ["python", "-m", "scrapper.main"]
+
 # Build like this:
 # docker build -t crypto-research .

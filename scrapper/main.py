@@ -6,7 +6,7 @@ import traceback
 import datetime as dt
 
 # Relative Imports
-from s3 import S3Wrapper
+from .s3 import S3Wrapper
 
 
 
