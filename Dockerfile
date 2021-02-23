@@ -6,7 +6,6 @@ RUN apt-get update && \
 
 RUN pip install --upgrade pip
 
-
 # Jupyter Notebook
 RUN pip install jupyterlab==3.0.7
 RUN pip install nbdime==2.1.0
@@ -20,10 +19,13 @@ RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
 RUN jupyter labextension install nbdime-jupyterlab
 
 # Third Party
-# RUN pip install numpy==1.19.4
-# RUN pip install matplotlib==3.3.3
-# RUN pip install pandas==1.1.4
-# RUN pip install tqdm==4.52.0
+RUN pip install beautifulsoup4==4.9.3
+RUN pip install boto3==1.17.13
+RUN pip install lxml==4.6.2
+RUN pip install smart-open==4.2.0
+
+# Development
+RUN pip install pylint
 
 
 ENV PYTHONPATH="/app"
