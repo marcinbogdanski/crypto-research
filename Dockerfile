@@ -22,6 +22,7 @@ RUN jupyter labextension install nbdime-jupyterlab
 RUN pip install beautifulsoup4==4.9.3
 RUN pip install boto3==1.17.13
 RUN pip install lxml==4.6.2
+RUN pip install pymongo==3.11.3
 RUN pip install smart-open==4.2.0
 RUN pip install tqdm==4.58.0
 
