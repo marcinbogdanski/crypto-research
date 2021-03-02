@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:4.0.23
+    container_name: my-mongodb
+    environment: 
+    - MONGO_INITDB_ROOT_USERNAME=myadmin
+    - MONGO_INITDB_ROOT_PASSWORD=mypassword
+    networks:
+    - my_network
+    ports:
+    - 27017:27017
+    restart: unless-stopped
+    user: 1000:1000
+    volumes:
+    - /home/marcin/mongodb/database:/data/db
+  mongo-express:
+    image: mongo-express:0.54.0
+    container_name: my-mongo-express
+    environment: 
+    - ME_CONFIG_BASICAUTH_USERNAME=myuser
+    - ME_CONFIG_BASICAUTH_PASSWORD=mypasswd
+    - ME_CONFIG_MONGODB_SERVER=my-mongodb
+    - ME_CONFIG_MONGODB_ADMINUSERNAME=myadmin
+    - ME_CONFIG_MONGODB_ADMINPASSWORD=mypassword
+    networks:
+    - my_network
+    ports:
+    - 8081:8081
+    restart: unless-stopped
+  metabase:
+    image: metabase/metabase:v0.38.0.1
+    container_name: my-metabase
+    environment:
+    - MB_DB_FILE=/metabase_data/metabase.db
+    networks:
+    - my_network
+    ports:
+    - 3000:3000
+    restart: unless-stopped
+    user: 1000:1000
+    volumes:
+    - /home/marcin/mongodb/metabase_data:/metabase_data
+networks:
+  my_network:
+    name: my-network
+    driver: bridge
