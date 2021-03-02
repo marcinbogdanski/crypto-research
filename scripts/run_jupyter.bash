@@ -1,18 +1,22 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
-    echo "You must specify path to data folder!"
-    exit 1
-fi
+# if [ "$#" -ne 1 ]; then
+#     echo "You must specify path to data folder!"
+#     exit 1
+# fi
 
-DATAPATH=$(realpath $1)
+# DATAPATH=$(realpath $1)
 
 docker run -it --rm \
   -p 9997:9997 \
   -v $PWD:/app \
-  -v $DATAPATH:/mnt/data:ro \
   -w / \
+  --network=my-network \
   --entrypoint=jupyter \
   --env-file=dotenv-scan-3060ti.env \
   crypto-research lab \
     --ip=0.0.0.0 --port=9997 --allow-root
+
+
+# Other options:
+# -v $DATAPATH:/mnt/data:ro \        - attach data folder
