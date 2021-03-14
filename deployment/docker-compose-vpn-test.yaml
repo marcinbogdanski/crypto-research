@@ -28,10 +28,19 @@ services:
     - NETWORK=${VPN_NETWORK}
     ports:
     - 8080:80
-
-  nginx:
-    image: nginx
+    - 9997:9997
+  
+  jupyter:
+    image: crypto-research
     network_mode: service:vpn
+    entrypoint: jupyter
+    command: ["lab", "--ip=0.0.0.0", "--port=9997"]
     depends_on:
     - vpn
+
+  # nginx:
+  #   image: nginx
+  #   network_mode: service:vpn
+  #   depends_on:
+  #   - vpn
 
