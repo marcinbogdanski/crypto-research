@@ -9,6 +9,33 @@ Start database:
 * start docker compose file in `deployment/docker-compose.yaml`
 * start jupyter with `scripts/run_jupyter.bash`
 
+# VPN Test
+
+Create `dotenv-vpn-test.env` with following content
+
+```bash
+VPN_USER="myemail@gmail.com"
+VPN_PASS="mypassword"
+```
+
+Start docker compose
+
+```bash
+docker-compose --env-file dotenv-vpn-test.env -f deployment/docker-compose-vpn-test.yaml up
+```
+
+Attach second container
+
+```bash
+docker run -it --rm  --net=container:deployment_vpn_1 curlimages/curl ipinfo.io
+```
+
+Spin down docker compose
+
+```bash
+docker-compose -f deployment/docker-compose-vpn-test.yaml down
+```
+
 # TODO
 
 * exact historical electricity cost
