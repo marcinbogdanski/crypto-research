@@ -14,8 +14,9 @@ Start database:
 Create `dotenv-vpn-test.env` with following content
 
 ```bash
-VPN_USER="myemail@gmail.com"
-VPN_PASS="mypassword"
+VPN_USERNAME="myemail@gmail.com"
+VPN_PASSWORD="mypassword"
+VPN_NETWORK="10.42.0.0/24"
 ```
 
 Start docker compose
@@ -24,7 +25,13 @@ Start docker compose
 docker-compose --env-file dotenv-vpn-test.env -f deployment/docker-compose-vpn-test.yaml up
 ```
 
-Attach second container
+Confirm nginx port fowarding works
+
+```bash
+http://localhost:8080
+```
+
+Attach another container (optional)
 
 ```bash
 docker run -it --rm  --net=container:deployment_vpn_1 curlimages/curl ipinfo.io

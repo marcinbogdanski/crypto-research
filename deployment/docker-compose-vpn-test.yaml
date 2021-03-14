@@ -15,6 +15,7 @@ version: "3"
 services:
   vpn:
     image: bubuntux/nordvpn
+    network_mode: bridge
     cap_add:
     - NET_ADMIN
     sysctls:
@@ -22,13 +23,15 @@ services:
     devices:
     - /dev/net/tun
     environment:
-    - USER=${VPN_USER}
-    - PASS=${VPN_PASS}
+    - USER=${VPN_USERNAME}
+    - PASS=${VPN_PASSWORD}
+    - NETWORK=${VPN_NETWORK}
+    ports:
+    - 8080:80
 
+  nginx:
+    image: nginx
+    network_mode: service:vpn
+    depends_on:
+    - vpn
 
-
-  # torrent:
-  #   image: linuxserver/qbittorrent
-  #   network_mode: service:vpn
-  #   depends_on:
-  #   - vpn
