@@ -29,11 +29,13 @@ RUN pip install tqdm==4.58.0
 # Development
 RUN pip install pylint
 
+RUN useradd -ms /bin/bash appuser
+USER appuser
 
 ENV PYTHONPATH="/app"
 
 # Docker COPY goes at the very end to minimise Docker cache misses during build
-COPY . /app
+COPY --chown=appuser . /app
 WORKDIR /app
 
 ENTRYPOINT ["python", "-m", "scrapper.main"]
