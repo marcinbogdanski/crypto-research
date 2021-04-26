@@ -11,7 +11,7 @@ docker run -it --rm \
   -p 9997:9997 \
   -v $PWD:/app \
   --entrypoint=jupyter \
-  --env-file=dotenv-scan-3060ti.env \
+  --env-file=dotenv-ebuyer-3060ti.env \
   crypto-research lab \
     --ip=0.0.0.0 --port=9997
 
