@@ -16,7 +16,7 @@ class Requestor:
         
         self.config = config if config is not None else _default_config
 
-    def get_websites(self, supplier: str, model: str) -> List[str]:
+    def get_listing_pages(self, supplier: str, model: str) -> List[str]:
         """Return one or more websites as strings"""
         url_list = self.config[supplier][model]
 

@@ -1,29 +1,33 @@
 import os
-from gpuscrapper.requestor import Requestor
+from typing import List
 
+from gpuscrapper.requestor import Requestor
+from gpuscrapper.checker import Checker
 
 class Scrapper:
     def __init__(self):
-
-        
-        
         self.requestor = Requestor()
+        self.checker = Checker()
 
-    def process_request(self, request_description):
-        supplier: str = request_description['supplier']
-        model: str = request_description['model']
-        content_list = self.requestor.get_websites(supplier=supplier, model=model)
+    def process_request(self, request_dict):
+        supplier: str = request_dict['supplier']
+        model: str = request_dict['model']
+
+        listing_pages: List[str] = self.requestor.get_listing_pages(
+            supplier=supplier, model=model)
+        
+        result = self.checker.check_listing_pages(request_dict, listing_pages)
 
         print('done')
 
 
 if __name__ == '__main__':
 
-    request_description = {
+    request = {
         'supplier': os.environ['SCRAPPER_SUPPLIER'],
         'model': os.environ['SCRAPPER_MODEL']
     }
 
     app = Scrapper()
-    app.process_request(request_description)
+    app.process_request(request)
 
