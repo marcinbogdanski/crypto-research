@@ -1,44 +1,54 @@
-FROM python:3.9.0-buster
+FROM ubuntu:focal-20210416
 
+# VPN Dependencies
+# psmisc - killall
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    curl
+    nano psmisc unzip wget openvpn
 
-RUN pip install --upgrade pip
+# Network Utils nad UFW
+# curl - curl
+# dnsutils - dig, nslookup
+# iputils-ping - ping
+# net-tools - route
+# traceroute - traceroute
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl dnsutils iputils-ping net-tools traceroute ufw
 
-# Jupyter Notebook
-RUN pip install jupyterlab==3.0.7
-RUN pip install nbdime==2.1.0
-RUN pip install ipywidgets==7.6.3
+# Python 3
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    python3 python3-pip
 
-# Jupyter Notebook Extensions
-RUN curl -sL https://deb.nodesource.com/setup_15.x | bash -
-RUN apt-get install -y nodejs
-RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
-RUN jupyter labextension install nbdime-jupyterlab
+# Get VPN config files
+WORKDIR /root
+RUN wget https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
+RUN unzip ovpn.zip
 
 # Third Party
-RUN pip install beautifulsoup4==4.9.3
-RUN pip install boto3==1.17.13
-RUN pip install lxml==4.6.2
-RUN pip install pymongo==3.11.3
-RUN pip install smart-open==4.2.0
-RUN pip install tqdm==4.58.0
+RUN pip3 install beautifulsoup4==4.9.3
+RUN pip3 install boto3==1.17.13
+RUN pip3 install lxml==4.6.2
+RUN pip3 install pymongo==3.11.3
+RUN pip3 install smart-open==4.2.0
+RUN pip3 install tqdm==4.58.0
 
 # Development
-RUN pip install pylint
-
-RUN useradd -ms /bin/bash appuser
-USER appuser
+RUN pip3 install pylint
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    git
 
 ENV PYTHONPATH="/app"
 
-# Docker COPY goes at the very end to minimise Docker cache misses during build
-COPY --chown=appuser . /app
 WORKDIR /app
+COPY . /app
 
-ENTRYPOINT ["python", "-m", "scrapper.main"]
+ENTRYPOINT [ "/app/scripts/startup.bash" ]
 
 # Build like this:
-# docker build -t crypto-research .
+# docker build -t gpu-scrapper .
+
+# Run like this:
+# docker run -it --rm --cap-add NET_ADMIN --env-file dotenv.env gpu-scrapper
