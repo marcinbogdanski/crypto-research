@@ -12,21 +12,24 @@ class Scrapper:
         assert isinstance(db_config, dict)
         assert set(db_config.keys()) == {'hostname', 'username', 'password', 'database'}
 
+        print('Scrapper: Initializing Requestor')
         self.requestor = Requestor()
+        print('Scrapper: Initializing Checker')
         self.checker = Checker()
+        print('Scrapper: Initializing Database')
         self.database = Database(
             hostname=db_config['hostname'],
             username=db_config['username'],
             password=db_config['password'],
             database=db_config['database']
         )
-        print('GPUScrapper: initialization completed')
+        print('Scrapper: initialization completed')
 
 
     def process_request(self, request_dict):
         
         request_str = json.dumps(request_dict)
-        print(f'GPUScrapper: Processing request: {request_str}')
+        print(f'Scrapper: Processing request: {request_str}')
 
         supplier: str = request_dict['supplier']
         model: str = request_dict['model']
@@ -37,7 +40,7 @@ class Scrapper:
         result_dict = self.checker.check_listing_pages(request_dict, listing_pages)
 
         result_str = json.dumps(result_dict)
-        print(f'GPUScrapper: Processing completed: {result_str}')
+        print(f'Scrapper: Processing completed: {result_str}')
 
 
 if __name__ == '__main__':
