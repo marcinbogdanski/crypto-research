@@ -1,4 +1,6 @@
 import os
+import json
+import time
 from typing import Any, Dict, List
 
 from gpuscrapper.requestor import Requestor
@@ -18,19 +20,24 @@ class Scrapper:
             password=db_config['password'],
             database=db_config['database']
         )
+        print('GPUScrapper: initialization completed')
 
-        print('bum')
 
     def process_request(self, request_dict):
+        
+        request_str = json.dumps(request_dict)
+        print(f'GPUScrapper: Processing request: {request_str}')
+
         supplier: str = request_dict['supplier']
         model: str = request_dict['model']
 
         listing_pages: List[str] = self.requestor.get_listing_pages(
             supplier=supplier, model=model)
         
-        result = self.checker.check_listing_pages(request_dict, listing_pages)
+        result_dict = self.checker.check_listing_pages(request_dict, listing_pages)
 
-        print('done')
+        result_str = json.dumps(result_dict)
+        print(f'GPUScrapper: Processing completed: {result_str}')
 
 
 if __name__ == '__main__':
@@ -49,4 +56,8 @@ if __name__ == '__main__':
 
     app = Scrapper(db_config=db_config)
     app.process_request(request)
+
+    
+    while True:
+        time.sleep(1)
 

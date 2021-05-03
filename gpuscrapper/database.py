@@ -8,8 +8,6 @@ class Database:
         assert isinstance(database, str)
         assert isinstance(port, int) and port > 0
 
-        import pdb; pdb.set_trace()
-        
         url = f'mongodb://{username}:{password}@{hostname}:{port}/'
         self._client = pymongo.MongoClient(url, serverSelectionTimeoutMS = 2000)
 
