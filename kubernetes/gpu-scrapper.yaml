@@ -3,6 +3,7 @@ kind: Pod
 metadata:
   name: gpu-scrapper
 spec:
+  restartPolicy: Never
   imagePullSecrets:
   - name: regcred
   containers:

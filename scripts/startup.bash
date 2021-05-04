@@ -15,6 +15,14 @@ fi
 # Run actual program
 echo "Startup: Executing 'python -m gpuscrapper.main'"
 python -m gpuscrapper.main
+RETURN_CODE=$?
+echo "Startup: Main program exited"
+
+if [ $VPN_ENABLE == "true" ]; then
+  source scripts/vpn_down.bash
+fi
+
+exit $RETURN_CODE
 
 # while true; do
 #   date
