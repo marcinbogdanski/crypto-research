@@ -18,7 +18,7 @@ spec:
     - name: SCRAPPER_SUPPLIER
       value: "ebuyer"
     - name: SCRAPPER_MODEL
-      value: "nvidia"
+      value: "3080"
     - name: MONGODB_HOSTNAME
       value: "mongodb"
     - name: MONGODB_USERNAME

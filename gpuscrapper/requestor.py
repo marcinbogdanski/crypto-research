@@ -5,6 +5,9 @@ _default_config = {
     'ebuyer': {
         'nvidia': [
             'https://www.ebuyer.com/store/Components/cat/Graphics-Cards-Nvidia'
+        ],
+        '3080': [
+            'https://www.ebuyer.com/store/Components/cat/Graphics-Cards-Nvidia/subcat/GeForce-RTX-3080'
         ]
     }
 }

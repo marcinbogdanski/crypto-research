@@ -82,7 +82,6 @@ class SubcheckerEBuyer:
         
         # Product Listing Page Summary
         plp_summary = {
-            '_type': 'product_listing_page_summary',
             'num_products_found_on_page': num_found,
             'num_products_available_on_page': num_available,
             'product_summaries': products_list

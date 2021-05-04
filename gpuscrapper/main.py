@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import datetime as dt
 from typing import Any, Dict, List
 
 from gpuscrapper.requestor import Requestor
@@ -28,19 +29,26 @@ class Scrapper:
 
     def process_request(self, request_dict):
         
-        request_str = json.dumps(request_dict)
-        print(f'Scrapper: Processing request: {request_str}')
+        print(f'Scrapper: Processing request: {json.dumps(request_dict)}')
 
-        supplier: str = request_dict['supplier']
-        model: str = request_dict['model']
+        # Record request timestamp
+        request_dt = dt.datetime.utcnow()
 
+        # Perform the request
         listing_pages: List[str] = self.requestor.get_listing_pages(
-            supplier=supplier, model=model)
+            supplier=request_dict['supplier'],
+            model=request_dict['model'])
         
+        # Process the result
         result_dict = self.checker.check_listing_pages(request_dict, listing_pages)
+        print(f'Scrapper: Processing completed: {json.dumps(result_dict)[:300]}')
 
-        result_str = json.dumps(result_dict)
-        print(f'Scrapper: Processing completed: {result_str}')
+        inserted_id = self.database.insert_one(
+            request_dt=request_dt,
+            request_dict=request_dict,
+            result_dict=result_dict
+        )
+        print(f'Scrapper: Insertion completed: {inserted_id}')
 
 
 if __name__ == '__main__':
@@ -58,9 +66,8 @@ if __name__ == '__main__':
     }
 
     app = Scrapper(db_config=db_config)
-    app.process_request(request)
-
-    
     while True:
-        time.sleep(1)
+        app.process_request(request)
+        time.sleep(5)
+    
 

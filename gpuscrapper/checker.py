@@ -17,7 +17,7 @@ class Checker:
         assert all(isinstance(v, str) for v in request_dict.values())
 
         model = request_dict['model']
-        assert model in {'nvidia', '3060ti', '3070'}
+        assert model in {'nvidia', '3060ti', '3070', '3080'}
         
         supplier = request_dict['supplier']
         assert supplier in {'ebuyer'}
@@ -38,7 +38,6 @@ class Checker:
             sum(s['num_products_available_on_page'] for s in plp_summaries)
         
         return {
-            '_type': 'request_result',
             'products_found': total_products_found_all_pages,
             'products_available': total_products_available_all_pages,
             'product_listing_page_sumaries': plp_summaries

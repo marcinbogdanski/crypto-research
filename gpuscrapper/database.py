@@ -1,3 +1,4 @@
+import datetime as dt
 import pymongo
 
 class Database:
@@ -16,8 +17,23 @@ class Database:
         print('Databases:', self._client.list_database_names())
         self._db = self._client[database]
         print('Collections:', self._db.list_collection_names())
-        collection = self._db['my-collection']
-        print('First Document:', collection.find_one())
+        self._collection = self._db['gpu-scrapper']
+        print('First Document:', self._collection.find_one())
 
 
         print('hop')
+    
+    def insert_one(self, request_dt, request_dict, result_dict):
+        assert isinstance(request_dt, dt.datetime)
+        assert isinstance(request_dict, dict)
+        assert isinstance(result_dict, dict)
+
+        document = {
+            'metadata': {
+                'request_datetime_utc': request_dt
+            },
+            'request': request_dict,
+            'result': result_dict
+        }
+        inserted_id = self._collection.insert_one(document)
+        return inserted_id
