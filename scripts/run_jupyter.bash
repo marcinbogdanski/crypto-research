@@ -10,6 +10,7 @@
 docker run -it --rm \
   -p 9997:9997 \
   -v $PWD:/app \
+  --network=host \
   --entrypoint=jupyter \
   --env-file=dotenv.env \
   crypto-research lab \
@@ -19,5 +20,6 @@ docker run -it --rm \
 # Other options:
 # -u "$(id -u):$(id -g)" \
 # -w / \
+# --network=host \         - able to talk to other services on localhost
 # --network=my-network \
 # -v $DATAPATH:/mnt/data:ro \        - attach data folder

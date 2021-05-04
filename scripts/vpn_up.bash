@@ -17,4 +17,21 @@ echo $VPN_PASS >> /tmp/up
 # echo "up /etc/openvpn/update-resolv-conf" >> $VPN_CONF
 # echo "down /etc/openvpn/update-resolv-conf" >> $VPN_CONF
 
+echo "VPN: Enabling..."
 openvpn --config $VPN_CONF --auth-user-pass /tmp/up --log /tmp/openvpn.log --daemon
+echo "VPN: Waiting 5 seconds..."
+sleep 5
+
+
+echo "VPN: Checking if VPN logs indicate success"
+NUM_LINES_MATCHED=$(cat /tmp/openvpn.log | grep -o "Initialization Sequence Completed" | wc -l)
+if [ $NUM_LINES_MATCHED == "1" ]; then
+    echo "VPN: Enabled Successfuly"
+else
+    echo "VPN ERROR: Phrase 'Initialization Sequence Completed' not found in VPN log /tmp/openvpn.log"
+    echo "----------"
+    cat /tmp/openvpn.log
+    echo "----------"
+    echo "VPN ERROR: VPN initialization failed, exiting"
+    exit 1
+fi
