@@ -30,8 +30,6 @@ class Checker:
                     SubcheckerEBuyer.check_product_listing_page(plp)
                 plp_summaries.append(plp_summary)
         
-        print('hop')
-
         total_products_found_all_pages = \
             sum(s['num_products_found_on_page'] for s in plp_summaries)
         total_products_available_all_pages = \

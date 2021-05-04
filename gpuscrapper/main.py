@@ -1,12 +1,11 @@
 import os
-import json
 import time
 import datetime as dt
 from typing import Any, Dict, List
 
 from gpuscrapper.requestor import Requestor
 from gpuscrapper.checker import Checker
-from gpuscrapper.database import Database
+from gpuscrapper.database import DatabaseMongoDB
 
 class Scrapper:
     def __init__(self, db_config: Dict[str, Any]):
@@ -18,18 +17,18 @@ class Scrapper:
         print('Scrapper: Initializing Checker')
         self.checker = Checker()
         print('Scrapper: Initializing Database')
-        self.database = Database(
+        self.database = DatabaseMongoDB(
             hostname=db_config['hostname'],
             username=db_config['username'],
             password=db_config['password'],
             database=db_config['database']
         )
-        print('Scrapper: initialization completed')
+        print('Scrapper: Initialization completed')
 
 
     def process_request(self, request_dict):
         
-        print(f'Scrapper: Processing request: {json.dumps(request_dict)}')
+        print(f'Scrapper: Processing request: {str(request_dict)[:100]}')
 
         # Record request timestamp
         request_dt = dt.datetime.utcnow()
@@ -38,10 +37,11 @@ class Scrapper:
         listing_pages: List[str] = self.requestor.get_listing_pages(
             supplier=request_dict['supplier'],
             model=request_dict['model'])
+        print(f'Scrapper: Request completed: {str(listing_pages)[:100]}')
         
         # Process the result
         result_dict = self.checker.check_listing_pages(request_dict, listing_pages)
-        print(f'Scrapper: Processing completed: {json.dumps(result_dict)[:300]}')
+        print(f'Scrapper: Processing completed: {str(result_dict)[:100]}')
 
         inserted_id = self.database.insert_one(
             request_dt=request_dt,
