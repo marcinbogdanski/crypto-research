@@ -16,10 +16,8 @@ spec:
     env:
     - name: PYTHONUNBUFFERED
       value: "1"
-    - name: SCRAPPER_SUPPLIER
-      value: "ebuyer"
-    - name: SCRAPPER_MODEL
-      value: "3080"
+    - name: SCRAPPER_REQUESTS
+      value: "[{\"supplier\":\"ebuyer\",\"model\":\"3080\"}]"
     - name: SCRAPPER_SLEEP_SEC
       value: "5.0"
     - name: MONGODB_HOSTNAME

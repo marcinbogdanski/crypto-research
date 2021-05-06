@@ -1,4 +1,5 @@
 import os
+import json
 import time
 import random
 import traceback
@@ -108,14 +109,22 @@ if __name__ == '__main__':
         'collection': os.environ['MONGODB_COLLECTION'],
     }
 
-    request = {
-        'supplier': os.environ['SCRAPPER_SUPPLIER'],
-        'model': os.environ['SCRAPPER_MODEL']
-    }
+    requests_str = os.environ['SCRAPPER_REQUESTS']
+    print(f'Main: |{requests_str}|')
+
+    requests_list = json.loads(requests_str)
+    print(f'Main: |{requests_list}|')
+    
+    assert isinstance(requests_list, list)
+    assert len(requests_list) > 0
+    for request_dict in requests_list:
+        assert isinstance(request_dict, dict)
+        assert set(request_dict.keys()) == {'supplier', 'model'}
 
     app = Scrapper(db_config=db_config)
     while True:
-        app.process_request(request)
-        time.sleep(sleep_sec)
+        for request in requests_list:
+            app.process_request(request)
+            time.sleep(sleep_sec)
     
 
