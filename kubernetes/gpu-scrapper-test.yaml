@@ -20,6 +20,8 @@ spec:
       value: "ebuyer"
     - name: SCRAPPER_MODEL
       value: "3080"
+    - name: SCRAPPER_SLEEP_SEC
+      value: "5.0"
     - name: MONGODB_HOSTNAME
       value: "mongodb"
     - name: MONGODB_USERNAME

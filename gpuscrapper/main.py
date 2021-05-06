@@ -97,6 +97,9 @@ class Scrapper:
 
 if __name__ == '__main__':
 
+    sleep_sec = float(os.environ['SCRAPPER_SLEEP_SEC'])
+    assert sleep_sec > 0
+
     db_config = {
         'hostname': os.environ['MONGODB_HOSTNAME'],
         'username': os.environ['MONGODB_USERNAME'],
@@ -113,6 +116,6 @@ if __name__ == '__main__':
     app = Scrapper(db_config=db_config)
     while True:
         app.process_request(request)
-        time.sleep(5)
+        time.sleep(sleep_sec)
     
 
