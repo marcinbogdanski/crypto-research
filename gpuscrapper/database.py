@@ -2,11 +2,12 @@ import datetime as dt
 import pymongo
 
 class DatabaseMongoDB:
-    def __init__(self, hostname: str, username: str, password: str, database: str, port: int = 27017):
+    def __init__(self, hostname: str, username: str, password: str, database: str, collection: str, port: int = 27017):
         assert isinstance(hostname, str)
         assert isinstance(username, str)
         assert isinstance(password, str)
         assert isinstance(database, str)
+        assert isinstance(collection, str)
         assert isinstance(port, int) and port > 0
 
         print('MongoDB: Creating client')
@@ -17,7 +18,7 @@ class DatabaseMongoDB:
         print('MongoDB: Databases:', self._client.list_database_names())
         self._db = self._client[database]
         print('MongoDB: Collections:', self._db.list_collection_names())
-        self._collection = self._db['gpu-scrapper']
+        self._collection = self._db[collection]
         print('MongoDB: Example document:',
               str(self._collection.find_one())[:100])
 

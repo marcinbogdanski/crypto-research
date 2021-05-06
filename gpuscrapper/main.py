@@ -12,7 +12,7 @@ from gpuscrapper.database import DatabaseMongoDB
 class Scrapper:
     def __init__(self, db_config: Dict[str, Any]):
         assert isinstance(db_config, dict)
-        assert set(db_config.keys()) == {'hostname', 'username', 'password', 'database'}
+        assert set(db_config.keys()) == {'hostname', 'username', 'password', 'database', 'collection'}
 
         print('Scrapper: Initializing Requestor')
         self.requestor = Requestor()
@@ -23,7 +23,8 @@ class Scrapper:
             hostname=db_config['hostname'],
             username=db_config['username'],
             password=db_config['password'],
-            database=db_config['database']
+            database=db_config['database'],
+            collection=db_config['collection']
         )
         print('Scrapper: Initialization completed')
 
@@ -101,6 +102,7 @@ if __name__ == '__main__':
         'username': os.environ['MONGODB_USERNAME'],
         'password': os.environ['MONGODB_PASSWORD'],   
         'database': os.environ['MONGODB_DATABASE'],
+        'collection': os.environ['MONGODB_COLLECTION'],
     }
 
     request = {
