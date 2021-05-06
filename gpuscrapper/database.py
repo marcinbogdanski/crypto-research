@@ -22,14 +22,18 @@ class DatabaseMongoDB:
               str(self._collection.find_one())[:100])
 
     
-    def insert_one(self, request_dt, request_dict, result_dict):
+    def insert_one(self, request_dt, request_dict, result_dict, listing_pages, error_report):
         assert isinstance(request_dt, dt.datetime)
         assert isinstance(request_dict, dict)
-        assert isinstance(result_dict, dict)
+        assert result_dict is None or isinstance(result_dict, dict)
+        assert listing_pages is None or isinstance(listing_pages, list)
+        assert error_report is None or isinstance(error_report, dict)
 
         document = {
             'metadata': {
-                'request_datetime_utc': request_dt
+                'request_datetime_utc': request_dt,
+                'listing_pages': listing_pages,
+                'error_report': error_report
             },
             'request': request_dict,
             'result': result_dict
