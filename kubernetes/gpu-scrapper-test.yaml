@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-scrapper-test
+spec:
+  restartPolicy: Never
+  imagePullSecrets:
+  - name: regcred
+  containers:
+  - name: gpu-scrapper-test
+    image: ghcr.io/marcinbogdanski/gpu-scrapper:latest
+    securityContext:
+      capabilities:
+        add:
+          - NET_ADMIN
+    env:
+    - name: PYTHONUNBUFFERED
+      value: "1"
+    - name: SCRAPPER_REQUESTS
+      value: "[{\"supplier\":\"ebuyer\",\"model\":\"3080\"}]"
+    - name: SCRAPPER_SLEEP_SEC
+      value: "5.0"
+    - name: MONGODB_HOSTNAME
+      value: "mongodb"
+    - name: MONGODB_USERNAME
+      value: "user"
+    - name: MONGODB_PASSWORD
+      value: "pass"
+    - name: MONGODB_DATABASE
+      value: "test"
+    - name: MONGODB_COLLECTION
+      value: "test"
+    - name: VPN_ENABLE
+      value: "true"
+    - name: VPN_CONF
+      value: "/root/ovpn_udp/uk2247.nordvpn.com.udp.ovpn"
+    - name: VPN_USER
+      valueFrom:
+        secretKeyRef:
+          name: nordvpn
+          key: NORDVPN_USER
+    - name: VPN_PASS
+      valueFrom:
+        secretKeyRef:
+          name: nordvpn
+          key: NORDVPN_PASS

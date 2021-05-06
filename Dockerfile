@@ -57,3 +57,9 @@ ENTRYPOINT [ "/app/scripts/startup.bash" ]
 
 # Run like this:
 # docker run -it --rm --cap-add NET_ADMIN --env-file dotenv.env gpu-scrapper
+
+# Tag like this:
+# docker image tag gpu-scrapper:latest ghcr.io/marcinbogdanski/gpu-scrapper:latest
+
+# Push like this:
+# docker push ghcr.io/marcinbogdanski/gpu-scrapper:latest
