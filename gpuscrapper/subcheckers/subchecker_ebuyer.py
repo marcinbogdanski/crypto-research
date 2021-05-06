@@ -53,15 +53,16 @@ class SubcheckerEBuyer:
         is_available = SubcheckerEBuyer._check_available(product_tag)
         is_not_available = SubcheckerEBuyer._check_not_available(product_tag)
 
-        assert is_available or is_not_available
-        assert not (is_available and is_not_available)
+        is_valid = (is_available or is_not_available) and \
+                     not (is_available and is_not_available)
         
-        if is_available:
-            print('AVAILABLE  AVAILABLE  AVAILABLE')
-
+        if not is_valid:
+            is_available = None
+        
         return {
             'title': title,
             'link': link,
+            'is_valid': is_valid,
             'available': is_available,
         }
     
@@ -78,12 +79,16 @@ class SubcheckerEBuyer:
             products_list.append(product_dict)
         
         num_found = len(products_list)
-        num_available = sum(p['available'] for p in products_list)
+        num_valid = sum(p['is_valid'] == True for p in products_list)
+        num_invalid = sum(p['is_valid'] == False for p in products_list)
+        num_available = sum(p['available'] == True for p in products_list)
         
         # Product Listing Page Summary
         plp_summary = {
             'num_products_found_on_page': num_found,
             'num_products_available_on_page': num_available,
+            'num_products_valid_on_page': num_valid,
+            'num_products_invalid_on_page': num_invalid,
             'product_summaries': products_list
         }
         

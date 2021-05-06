@@ -34,9 +34,15 @@ class Checker:
             sum(s['num_products_found_on_page'] for s in plp_summaries)
         total_products_available_all_pages = \
             sum(s['num_products_available_on_page'] for s in plp_summaries)
+        total_products_valid_all_pages = \
+            sum(s['num_products_valid_on_page'] for s in plp_summaries)
+        total_products_invalid_all_pages = \
+            sum(s['num_products_invalid_on_page'] for s in plp_summaries)
         
         return {
             'products_found': total_products_found_all_pages,
             'products_available': total_products_available_all_pages,
+            'products_valid': total_products_valid_all_pages,
+            'products_invalid': total_products_invalid_all_pages,
             'product_listing_page_sumaries': plp_summaries
         }
